@@ -33,21 +33,21 @@ echo "DONE"
 
 # Copy the rTorrent configuration file and create folders for downloading torrents to
 echo "Copying rTorrent configuration file and creating folders..."
-sudo cp ~/wtorrent-installer/.rtorrent.rc /home/rt/ || fail "Failed to copy .rtorrent.rc. Does it exist at ~/wtorrent-installer/.rtorrent.rc?"
+sudo cp .rtorrent.rc /home/rt/ || fail "Failed to copy .rtorrent.rc. Does it exist in the current directory?"
 sudo mkdir -p /home/rt/torrents/watch/ /home/rt/torrents/doing/ /home/rt/torrents/done/ /home/rt/.rtsession/ || fail "Failed to create /home/rt/torrents and sub directories."
 sudo chown -R rt.rt /home/rt/ || fail "Failed to set proper ownership of /home/rt/."
 echo "DONE"
 
 # Copy and start the rTorrent INIT script
 echo "Copying rTorrent INIT script..."
-sudo cp ~/wtorrent-installer/rtorrent /etc/init.d/rtorrent || fail "Failed to copy the rTorrrent INIT script. Does it exist at ~/wtorrent-installer/rtorrent"
+sudo cp ./rtorrent /etc/init.d/rtorrent || fail "Failed to copy the rTorrrent INIT script. Does it exist in the current directory?"
 sudo update-rc.d rtorrent defaults 25 || fail "Failed to add rTorrrent system startup links. Is the INIT script already configured?"
 echo "DONE"
 sudo /etc/init.d/rtorrent start
 
 # Copy the lighttpd configuration file and restart the server
 echo "Copying lighttpd configuration file..."
-sudo cp ~/wtorrent-installer/lighttpd.conf /etc/lighttpd/ || fail "Failed to copy lighttpd.conf. Does it exist at ~/wtorrent-installer/lighttpd.conf?"
+sudo lighttpd.conf /etc/lighttpd/ || fail "Failed to copy lighttpd.conf.Does it exist in the current directory?"
 echo "DONE"
 echo "Restarting lighttpd..."
 sudo /etc/init.d/lighttpd restart || fail "Failed to restart lighttpd. Please check /etc/lighttpd/lighttpd.conf."
