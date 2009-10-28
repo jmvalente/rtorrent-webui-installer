@@ -40,14 +40,14 @@ echo "DONE"
 
 # Copy and start the rTorrent INIT script
 echo "Copying rTorrent INIT script..."
-sudo cp ./rtorrent /etc/init.d/rtorrent || fail "Failed to copy the rTorrrent INIT script. Does it exist in the current directory?"
+sudo cp rtorrent /etc/init.d/rtorrent || fail "Failed to copy the rTorrrent INIT script. Does it exist in the current directory?"
 sudo update-rc.d rtorrent defaults 25 || fail "Failed to add rTorrrent system startup links. Is the INIT script already configured?"
 echo "DONE"
 sudo /etc/init.d/rtorrent start
 
 # Copy the lighttpd configuration file and restart the server
 echo "Copying lighttpd configuration file..."
-sudo lighttpd.conf /etc/lighttpd/ || fail "Failed to copy lighttpd.conf.Does it exist in the current directory?"
+sudo cp lighttpd.conf /etc/lighttpd/ || fail "Failed to copy lighttpd.conf.Does it exist in the current directory?"
 echo "DONE"
 echo "Restarting lighttpd..."
 sudo /etc/init.d/lighttpd restart || fail "Failed to restart lighttpd. Please check /etc/lighttpd/lighttpd.conf."
