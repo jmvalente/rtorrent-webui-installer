@@ -52,20 +52,48 @@ echo "DONE"
 echo "Restarting lighttpd..."
 sudo /etc/init.d/lighttpd restart || fail "Failed to restart lighttpd. Please check /etc/lighttpd/lighttpd.conf."
 echo "DONE"
+#Switch statement to install specified webUI
+#Currently only wTorrent and ruTorrent are supported
+#TODO:
+# Automatically create .htaccess file for ruTorrent to prevent unauthorized access
+# Compile rTorrent with xmlrpc-c 1.11 to remove the error from ruTorrent.
+case $1 of
+wTorrent)
+	# Download the latest wTorrent release
+	echo "Downloading wTorrent..."
+	cd /var/www
+	sudo svn co -q svn://wtorrent-project.org/repos/trunk/wtorrent/ || fail "Failed to check out the latest wTorrent release from 'svn://wtorrent-project.org/repos/trunk/wtorrent/'. You can download it manually to '/var/www/'."
+	cd wtorrent
+	sudo mv * .. || fail "Failed to move wTorrent files to /var/www/. Please remove any wTorrent files and directories from /var/www/ before running the script."
+	cd ..
+	sudo rm -r wtorrent
+	sudo touch ./db/database.db
+	sudo chown -R www-data:www-data db torrents tpl_c
+	sudo chmod 777 -R conf/
+	sudo sed -e 's:{$web->getOption('\''dir_download'\'')}:/home/rt/torrents/doing:' -i wt/tpl/install/index.tpl.php || fail "Failed to set the default torrent data directory to '/home/rt/torrents/doing'. You can manually set it when you run install.php."
+	echo "DONE"
 
-# Download the latest wTorrent release
-echo "Downloading wTorrent..."
-cd /var/www
-sudo svn co -q svn://wtorrent-project.org/repos/trunk/wtorrent/ || fail "Failed to check out the latest wTorrent release from 'svn://wtorrent-project.org/repos/trunk/wtorrent/'. You can download it manually to '/var/www/'."
-cd wtorrent
-sudo mv * .. || fail "Failed to move wTorrent files to /var/www/. Please remove any wTorrent files and directories from /var/www/ before running the script."
-cd ..
-sudo rm -r wtorrent
-sudo touch ./db/database.db
-sudo chown -R www-data:www-data db torrents tpl_c
-sudo chmod 777 -R conf/
-sudo sed -e 's:{$web->getOption('\''dir_download'\'')}:/home/rt/torrents/doing:' -i wt/tpl/install/index.tpl.php || fail "Failed to set the default torrent data directory to '/home/rt/torrents/doing'. You can manually set it when you run install.php."
-echo "DONE"
+	echo "rTorrent and wTorrent have been installed. Visit http://your.servers.ip.address/install.php to complete the configuration."
+	;;
+ruTorrent)
+	# Download the latest wTorrent release
+	echo "Downloading ruTorrent..."
+	cd /var/www
+	svn co -q http://rutorrent.googlecode.com/svn/trunk/rtorrent/ || fail "Failed to check out the latest ruTorrent release from 'http://rutorrent.googlecode.com/svn/trunk/rtorrent/'. You can download it manually to '/var/www/'."
+	cd rtorrent
+	sudo mv * .. || fail "Failed to move ruTorrent files to /var/www/. Please remove any ruTorrent files and directories from /var/www/ before running the script."
+	cd ..
+	sudo chmod 777 -R settings/ torrents/
+	sudo rm -r rtorrent
+	echo "DONE"
 
-echo "rTorrent and wTorrent have been installed. Visit http://your.servers.ip.address/install.php to complete the configuration."
+	echo "rTorrent and ruTorrent have been installed. Visit http://your.servers.ip.address/ and edit your settings to complete the configuration."
+	echo "Additionally, you may wish to create an .htaccess file to prevent unauthorized access"
+	;;
+*)
+	echo "Please enter a command line argument corresponding to the webUI you wish to install: "
+	echo "./install.sh wTorrent"
+	echo "./install.sh ruTorrent"
+;;
+esac
 exit 0
