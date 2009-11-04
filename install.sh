@@ -57,7 +57,7 @@ echo "DONE"
 #TODO:
 # Automatically create .htaccess file for ruTorrent to prevent unauthorized access
 # Compile rTorrent with xmlrpc-c 1.11 to remove the error from ruTorrent.
-case $1 of
+case $1 in
 wTorrent)
 	# Download the latest wTorrent release
 	echo "Downloading wTorrent..."
