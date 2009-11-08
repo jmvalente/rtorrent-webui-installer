@@ -1,3 +1,3 @@
 When running install.sh be sure to specify which WebUI you wish to install(currently only wTorrent and ruTorrent) as an argument. 
 
-If you install ruTorrent, it is highly advised that you create an .htaccess file to prevent unauthorized access to your files. 
+If you install ruTorrent, it is highly advised that you secure the index page to prevent unauthorized access.

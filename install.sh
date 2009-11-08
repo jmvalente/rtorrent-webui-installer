@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
 ########################################################
-# wTorrent Installer 2009 February 21 Version 2.1 #
+# wTorrent Installer 2009 November 08 Version 3.1 #
 ########################################################
 # Author: Devin (devudio@gmail.com)
-# Description: Automatically downloads and configures rTorrent and the wTorrent web interface.
+# Description: Automatically downloads and configures rTorrent and the wTorrent or ruTorrent web interface.
 # rTorrent: http://libtorrent.rakshasa.no/
 # wTorrent: http://www.wtorrent-project.org/
+# ruTorrent: http://code.google.com/p/rutorrent/
 ########################################################
 # This script and the configuration files are a combination of the information posted on these guides:
 # http://www.wtorrent-project.org/trac/wiki/DebianInstall/
@@ -19,7 +20,9 @@ function fail {
 	echo "If you are trying to re-install rTorrent/wTorrent, run uninstall.sh first."
 	exit 1
 }
-
+#Check if command line arguments are entered
+if [ $1 ];
+  then 
 # Install rTorrent and required packages
 echo "Installing rTorrent and required packages..."
 sudo apt-get -y install rtorrent screen mc lighttpd gawk php5-cgi php5-common php5-sqlite php5-xmlrpc php5-curl sqlite subversion
@@ -88,7 +91,7 @@ ruTorrent)
 	echo "DONE"
 
 	echo "rTorrent and ruTorrent have been installed. Visit http://your.servers.ip.address/ and edit your settings to complete the configuration."
-	echo "Additionally, you may wish to create an .htaccess file to prevent unauthorized access"
+	echo " Additionally, you may wish to prevent unauthorized access to ruTorrent by editing lighttpd's configuration file or other methods to provide authentication."
 	;;
 *)
 	echo "Please enter a command line argument corresponding to the webUI you wish to install: "
@@ -96,4 +99,8 @@ ruTorrent)
 	echo "./install.sh ruTorrent"
 ;;
 esac
-exit 0
+  #Throw eror if no argument is provided
+  else 
+  echo "Please provide the name of the WebUI you wish to install as an argument"
+  fi
+exit 0  
