@@ -64,28 +64,19 @@ case $1 in
 wTorrent)
 	# Download the latest wTorrent release
 	echo "Downloading wTorrent..."
-	cd /var/www
-	sudo svn co -q svn://wtorrent-project.org/repos/trunk/wtorrent/ || fail "Failed to check out the latest wTorrent release from 'svn://wtorrent-project.org/repos/trunk/wtorrent/'. You can download it manually to '/var/www/'."
-	cd wtorrent
-	sudo mv * .. || fail "Failed to move wTorrent files to /var/www/. Please remove any wTorrent files and directories from /var/www/ before running the script."
-	cd ..
-	sudo rm -r wtorrent
-	sudo touch ./db/database.db
-	sudo chown -R www-data:www-data db torrents tpl_c
-	sudo chmod 777 -R conf/
-	sudo sed -e 's:{$web->getOption('\''dir_download'\'')}:/home/rt/torrents/doing:' -i wt/tpl/install/index.tpl.php || fail "Failed to set the default torrent data directory to '/home/rt/torrents/doing'. You can manually set it when you run install.php."
+	sudo svn co -q svn://wtorrent-project.org/repos/trunk/wtorrent/ /var/www/ || fail "Failed to check out the latest wTorrent release from 'svn://wtorrent-project.org/repos/trunk/wtorrent/'. You can download it manually to '/var/www/'."
+	sudo touch /var/www/db/database.db
+	sudo chown -R www-data:www-data /var/www/db/ /var/www/torrents/ /var/www/tpl_c/
+	sudo chmod 777 -R /var/www/conf/
+	sudo sed -e 's:{$web->getOption('\''dir_download'\'')}:/home/rt/torrents/doing:' -i /var/www/wt/tpl/install/index.tpl.php || fail "Failed to set the default torrent data directory to '/home/rt/torrents/doing'. You can manually set it when you run install.php."
 	echo "DONE"
 
 	echo "rTorrent and wTorrent have been installed. Visit http://your.servers.ip.address/install.php to complete the configuration."
 	;;
 ruTorrent)
-	# Download the latest wTorrent release
+	# Download the latest rTorrent release
 	echo "Downloading ruTorrent..."
-	cd /var/www
-	svn co -q http://rutorrent.googlecode.com/svn/trunk/rtorrent/ || fail "Failed to check out the latest ruTorrent release from 'http://rutorrent.googlecode.com/svn/trunk/rtorrent/'. You can download it manually to '/var/www/'."
-	cd rtorrent
-	sudo mv * .. || fail "Failed to move ruTorrent files to /var/www/. Please remove any ruTorrent files and directories from /var/www/ before running the script."
-	cd ..
+	sudo svn co -q http://rutorrent.googlecode.com/svn/trunk/rtorrent/ /var/www/ || fail "Failed to check out the latest ruTorrent release from 'http://rutorrent.googlecode.com/svn/trunk/rtorrent/'. You can download it manually to '/var/www/'."
 	sudo chmod 777 -R settings/ torrents/
 	sudo rm -r rtorrent
 	echo "DONE"
@@ -103,4 +94,4 @@ esac
   else 
   echo "Please provide the name of the WebUI you wish to install as an argument"
   fi
-exit 0  
+exit 0
