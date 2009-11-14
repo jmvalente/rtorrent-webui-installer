@@ -6,7 +6,7 @@ set -e
 # Author: daymun (http://github.com/daymun)
 # Coauthor: JMV290 (http://github.com/JMV290)
 # GitHub repository: http://github.com/daymun/rtorrent-webui-installer
-# Description: Automatically downloads and configures an rTorrent and a WebUI; wTorrent and ruTorrent are currently supported.
+# Description: Automatically downloads and configures rTorrent and a WebUI; wTorrent and ruTorrent are currently supported.
 # rTorrent: http://libtorrent.rakshasa.no/
 # wTorrent: http://www.wtorrent-project.org/
 ########################################################
