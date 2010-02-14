@@ -1,9 +1,10 @@
 #!/bin/bash
 ########################################################
-# wTorrent Uninstaller 2009 February 07 Version 1.0 #
+# rTorrent WebUI Uninstaller 2009 November 13 Version 1.1 #
 ########################################################
-# Author: Devin (devudio@gmail.com)
-# Description: Automatically reverses any changes to the system made by install.sh.
+# Author: daymun (http://github.com/daymun)
+# GitHub repository: http://github.com/daymun/rtorrent-webui-installer
+# Description: Reverses any changes to the system made by install.sh.
 ########################################################
 
 function fail {
@@ -36,9 +37,10 @@ echo "Stopping lighttpd..."
 sudo /etc/init.d/lighttpd stop || fail "Failed to stop lighttpd."
 echo "DONE"
 
-# Remove wTorrent
+# Remove WebUI
 echo "Removing wTorrent..."
-sudo rm -rf /var/www/* || "Failed to remove wTorrent."
+sudo rm -rf /var/www/* || "Failed to remove WebUI."
+sudo rm -rf /var/www/.svn/ || "Failed to remove WebUI's .svn directory."
 echo "DONE"
 
 # Ask the user if all packages should be removed
